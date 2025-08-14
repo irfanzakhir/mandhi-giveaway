@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>y.not.cse Mandhi Giveaway</title>
+  <style>
+    body {
+      margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffcc00, #ff8800, #f3ef12, #ffbb55);
+      background-size: 300% 300%; animation: colorBreath 8s ease infinite;
+    }
+    @keyframes colorBreath {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .container {
+      background: rgba(255,255,255,0.9); padding: 2rem; border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3); text-align: center; width: 95%; max-width: 420px;
+    }
+    h1 { color: #333; margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1rem; text-align: left; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: bold; color: #333; }
+    input, select {
+      width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem;
+    }
+    button {
+      background-color: #e1306c; color: white; padding: 0.75rem 1.5rem; border: none;
+      border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s;
+      width: 100%;
+    }
+    button:hover { background-color: #c13584; }
+    .error { color: red; font-size: 0.9rem; margin-top: 0.5rem; display: none; }
+    .success { color: #1b5e20; font-size: 0.95rem; margin-top: 0.75rem; display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>y.not.cse Mandhi Giveaway</h1>
+
+    <!-- Invisible iframe to prevent redirect to Google Forms confirmation page -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+    <form
+      id="giveawayForm"
+      action="https://docs.google.com/forms/d/e/1FAIpQLSccziu3Y3fGYtiVyBIU0cFwTh_Cm6gadGMDatxfRTmNdEKOvw/formResponse"
+      method="POST"
+      target="hidden_iframe"
+      onsubmit="submitted=true;"
+      autocomplete="on"
+    >
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text"
+               id="name"
+               name="entry.349309801"
+               required />
+        <div id="nameError" class="error">Please enter your name</div>
+      </div>
+
+      <div class="form-group">
+        <label for="instagram">Instagram ID</label>
+        <input type="text"
+               id="instagram"
+               name="entry.1449437708"
+               required />
+        <div id="instagramError" class="error">Please enter your Instagram ID</div>
+      </div>
+
+      <div class="form-group">
+        <label for="semester">Current Semester</label>
+        <select id="semester" name="entry.1665479029" required>
+          <option value="" disabled selected>Select Semester</option>
+          <option value="1">1</option><option value="2">2</option>
+          <option value="3">3</option><option value="4">4</option>
+          <option value="5">5</option><option value="6">6</option>
+          <option value="7">7</option><option value="8">8</option>
+        </select>
+        <div id="semesterError" class="error">Please select your semester</div>
+      </div>
+
+      <button type="submit">Follow y.not.cse and Submit</button>
+      <div id="successMsg" class="success">✅ Entry submitted successfully!</div>
+    </form>
+  </div>
+
+<script>
+  // Client-side validation + success UX
+  let submitted = false;
+
+  const form = document.getElementById('giveawayForm');
+  const successMsg = document.getElementById('successMsg');
+
+  form.addEventListener('submit', function(event) {
+    // Clear errors
+    document.getElementById('nameError').style.display = 'none';
+    document.getElementById('instagramError').style.display = 'none';
+    document.getElementById('semesterError').style.display = 'none';
+
+    let isValid = true;
+    const name = document.getElementById('name').value.trim();
+    const instagram = document.getElementById('instagram').value.trim();
+    const semester = document.getElementById('semester').value;
+
+    if (!name) { document.getElementById('nameError').style.display = 'block'; isValid = false; }
+    if (!instagram) { document.getElementById('instagramError').style.display = 'block'; isValid = false; }
+    if (!semester) { document.getElementById('semesterError').style.display = 'block'; isValid = false; }
+
+    if (!isValid) {
+      event.preventDefault(); // stop submit if invalid
+      return;
+    }
+
+    // If valid, let the form POST to the hidden iframe (prevents redirect)
+    submitted = true;
+  });
+
+  // Show success when the hidden iframe loads after submit
+  document.getElementById('hidden_iframe').addEventListener('load', function() {
+    if (submitted) {
+      successMsg.style.display = 'block';
+      form.reset();
+      // Optional: Reset placeholder dropdown text
+      document.getElementById('semester').selectedIndex = 0;
+      // Hide the success after a few seconds
+      setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+      submitted = false;
+    }
+  });
+</script>
+</body>
+</html>
